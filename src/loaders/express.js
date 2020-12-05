@@ -10,9 +10,6 @@ module.exports = async ({ app }) => {
   app.get('/health', (req, res) => {
     res.send('The server is up and running');
   });
-  app.head('/health', (req, res) => {
-    res.send('The server is up and running');
-  });
 
   // The magic package that prevents frontend developers going nuts
   // Alternate description:
@@ -34,21 +31,6 @@ module.exports = async ({ app }) => {
   });
 
   /// error handlers
-  app.use((err, req, res, next) => {
-    /**
-     * Handle 401 thrown by express-jwt library
-     */
-    if (err.name === 'UnauthorizedError') {
-      return res
-        .status(err.status)
-        .send({
-          message: err.message,
-          code: ERRORS.UNAUTHORIZED_ERROR,
-        })
-        .end();
-    }
-    return next(err);
-  });
 
   /**
    * Celebrate error handler
@@ -75,7 +57,7 @@ module.exports = async ({ app }) => {
 
   // General error handler
   app.use((err, req, res, next) => {
-    if (err.code) log.error('Unknown Error:', err);
+    if (!err.code) log.error('Unknown Error:', err);
     res.status(err.status || 500);
     res.json({
       message: err.message,
