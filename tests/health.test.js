@@ -1,10 +1,12 @@
 const request = require('supertest');
 const express = require('express');
 const loaders = require('../src/loaders');
+const log = require('../src/utils/logger');
 const app = express();
 
 describe('Health test', () => {
   before(async () => {
+    log.pause();
     await loaders.init({ expressApp: app });
   });
 

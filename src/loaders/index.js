@@ -1,5 +1,5 @@
 const expressLoader = require('./express');
-const log = require('../utils/logger')('loader');
+const log = require('../utils/logger');
 
 const init = async ({ expressApp }) => {
   await expressLoader({ app: expressApp });

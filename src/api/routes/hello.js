@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { celebrate, Joi } = require('celebrate');
-const log = require('../../utils/logger')(__filename);
+const log = require('../../utils/logger');
 
 const route = Router();
 

@@ -2,7 +2,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { isCelebrate } = require('celebrate');
 const routes = require('../api');
-const log = require('../utils/logger')(__filename);
+const log = require('../utils/logger');
 const { ERRORS } = require('../utils/constants');
 
 module.exports = async ({ app }) => {
