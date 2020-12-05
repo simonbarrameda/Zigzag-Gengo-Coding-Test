@@ -2,15 +2,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { isCelebrate } = require('celebrate');
 const routes = require('../api');
-const log = require('../utils/logger')(__filename);
+const log = require('../utils/logger');
 const { ERRORS } = require('../utils/constants');
 
 module.exports = async ({ app }) => {
   // Health check endpoints
   app.get('/health', (req, res) => {
-    res.send('The server is up and running');
-  });
-  app.head('/health', (req, res) => {
     res.send('The server is up and running');
   });
 
@@ -34,21 +31,6 @@ module.exports = async ({ app }) => {
   });
 
   /// error handlers
-  app.use((err, req, res, next) => {
-    /**
-     * Handle 401 thrown by express-jwt library
-     */
-    if (err.name === 'UnauthorizedError') {
-      return res
-        .status(err.status)
-        .send({
-          message: err.message,
-          code: ERRORS.UNAUTHORIZED_ERROR,
-        })
-        .end();
-    }
-    return next(err);
-  });
 
   /**
    * Celebrate error handler
@@ -75,7 +57,7 @@ module.exports = async ({ app }) => {
 
   // General error handler
   app.use((err, req, res, next) => {
-    if (err.code) log.error('Unknown Error:', err);
+    if (!err.code) log.error('Unknown Error:', err);
     res.status(err.status || 500);
     res.json({
       message: err.message,

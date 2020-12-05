@@ -3,7 +3,13 @@ node_modules
 **/node_modules
 
 # Environment file
-.env
+# Commenting env file for demonstration
+# .env
 
 # Log files
+logs
 *.log
+
+# Tests
+.nyc_output
+coverage

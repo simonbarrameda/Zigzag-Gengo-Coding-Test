@@ -1,21 +1,29 @@
-const debug = require('debug');
-const path = require('path');
+const winston = require('winston');
+const config = require('../config');
+const { format } = winston;
+const { combine, timestamp, printf } = format;
 
-const getLoggerInstance = fileUrl => {
-  const filename = path.basename(fileUrl, '.js');
-  const error = debug(`[ERROR][${filename}]`);
-  const warn = debug(`[WARN][${filename}]`);
-  const info = debug(`[INFO][${filename}]`);
-  const debugLevel = debug(`[DEBUG][${filename}]`);
-  const silly = debug(`[SILLY][${filename}]`);
+const myFormat = printf(({ level, message, timestamp }) => {
+  return `${timestamp} - [${level}]: ${message}`;
+});
 
-  return {
-    error,
-    warn,
-    info,
-    debug: debugLevel,
-    silly,
-  };
-};
+const logger = winston.createLogger({
+  level: config.logs.level,
+  format: combine(
+    timestamp(),
+    myFormat
+  ),
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error', dirname: 'logs' }),
+    new winston.transports.File({ filename: 'combined.log', dirname: 'logs' }),
+  ],
+});
 
-module.exports = getLoggerInstance;
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new winston.transports.Console({
+    format: myFormat,
+  }));
+}
+
+logger.info(`Initialized logger with log level: ${config.logs.level}`);
+module.exports = logger;
