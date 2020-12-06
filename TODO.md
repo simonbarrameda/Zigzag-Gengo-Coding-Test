@@ -5,6 +5,7 @@ The following are the key targets for delivering the coding assessment for Zigza
 1. [Setup](#setup)
 2. [Documentation](#documentation)
 3. [Implement functions](#implement-functions)
+4. [Implement APIs](#implement-apis)
 
 ## Setup
 
@@ -26,5 +27,9 @@ Update README.md to add instructions for running the server. Add descriptions ab
   > Now write a function that, given a string, returns its longest palindromic substring. You can assume that there will only be one longest palindromic substring.
 3. Count least number of palindromes
   > Now write a function that returns the minimum number of cuts needed to perform on the string such that each remaining substring is a palindrome.
+
+## Implement APIs
+
+Create an API for each function for easy validation.
 
 Add unit test for each implementation. Make sure that test coverage should be atleast `80%` across lines and statements

@@ -70,8 +70,52 @@ function findLongestPalindromicSubstring(str, caseSensitiveFlag) {
   str = removeNonAlphabetChars(str);
   return str;
 }
+/**
+ * Reference: https://algorithms.tutorialhorizon.com/dynamic-programming-split-the-string-into-minimum-number-of-palindromes/
+ */
+function getMinimumCutsForPalindromes(str, caseSensitiveFlag) {
+  str = removeNonAlphabetChars(str);
+
+  if (!caseSensitiveFlag) {
+    str = str.toLowerCase();
+  }
+
+  if (isPalindrome(str)) {
+    return 0;
+  }
+
+  const solutions = {}; // Map of previous solutions to avoid recomputation
+  let cuts = Number.MAX_SAFE_INTEGER;
+  for (let i=1; i<str.length; i++) { // Repeatedly split the string into two parts `left` and `right`
+    let leftSolution = 0;
+    let rightSolution = 0;
+    const leftString = str.substring(0, i);
+    const rightString = str.substring(i, str.length);
+
+    // Left substring
+    if (solutions.hasOwnProperty(leftString)) { // Checks if the substring has a previous solution
+      leftSolution = solutions[leftString];
+    } else {
+      leftSolution = getMinimumCutsForPalindromes(leftString); // Recursively compute for the solution of a substring
+      solutions[leftString] = leftSolution;
+    }
+
+    // Right substring
+    if (solutions.hasOwnProperty(rightString)) {
+      rightSolution = solutions[rightString];
+    } else {
+      rightSolution = getMinimumCutsForPalindromes(rightString);
+      solutions[rightString] = rightSolution;
+    }
+
+    cuts = Math.min(1 + leftSolution + rightSolution, cuts);
+  }
+
+  return cuts;
+}
 
 module.exports = {
   isPalindrome,
   findLongestPalindromicSubstring,
+  getMinimumCutsForPalindromes,
 };
