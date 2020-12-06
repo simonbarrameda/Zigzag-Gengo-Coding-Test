@@ -1,5 +1,5 @@
 function removeNonAlphabetChars(str) {
-  return str.replace(/[^A-Za-z]*/g, '');
+  return str.replace(/[^A-Za-z0-9]*/g, '');
 }
 
 function isPalindrome(str, caseSensitiveFlag) {
@@ -80,7 +80,7 @@ function getMinimumCutsForPalindromes(str, caseSensitiveFlag) {
     str = str.toLowerCase();
   }
 
-  if (isPalindrome(str)) {
+  if (isPalindrome(str, caseSensitiveFlag)) {
     return 0;
   }
 
@@ -96,7 +96,7 @@ function getMinimumCutsForPalindromes(str, caseSensitiveFlag) {
     if (solutions.hasOwnProperty(leftString)) { // Checks if the substring has a previous solution
       leftSolution = solutions[leftString];
     } else {
-      leftSolution = getMinimumCutsForPalindromes(leftString); // Recursively compute for the solution of a substring
+      leftSolution = getMinimumCutsForPalindromes(leftString, caseSensitiveFlag); // Recursively compute for the solution of a substring
       solutions[leftString] = leftSolution;
     }
 
@@ -104,7 +104,7 @@ function getMinimumCutsForPalindromes(str, caseSensitiveFlag) {
     if (solutions.hasOwnProperty(rightString)) {
       rightSolution = solutions[rightString];
     } else {
-      rightSolution = getMinimumCutsForPalindromes(rightString);
+      rightSolution = getMinimumCutsForPalindromes(rightString, caseSensitiveFlag);
       solutions[rightString] = rightSolution;
     }
 
