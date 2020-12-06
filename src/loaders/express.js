@@ -20,7 +20,7 @@ module.exports = async ({ app }) => {
   app.use(bodyParser.json());
 
   // Load API Routes
-  app.use('/', routes());
+  app.use('/', routes);
 
   /// catch 404 and forward to error handler
   app.use((req, res, next) => {
@@ -47,8 +47,8 @@ module.exports = async ({ app }) => {
       errResponse.error = {
         source: err.meta.source,
         keys: err.joi.details.map(e => e.context.key)
-      }
-      log.debug(errResponse);
+      };
+      log.error(errResponse);
       return res.status(400).json(errResponse);
     }
     return next(err);

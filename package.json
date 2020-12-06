@@ -30,6 +30,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^6.5.0",
     "husky": "^4.3.0",
     "mocha": "^8.2.1",
